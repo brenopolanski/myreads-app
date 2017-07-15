@@ -4,7 +4,7 @@ import Bookshelf from './Bookshelf.js'
 
 class ListBooks extends Component {
   render() {
-    const {bookshelfs, books} = this.props
+    const {books, bookshelfs, onChangeShelf} = this.props
 
     return (
       <div className="list-books">
@@ -19,6 +19,7 @@ class ListBooks extends Component {
                 bookshelfTitle={bookshelf.title}
                 bookshelfs={bookshelfs}
                 books={books.filter(book => book.shelf === bookshelf.key)}
+                onChangeShelf={onChangeShelf}
               />
             ))}
           </div>

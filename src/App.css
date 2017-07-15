@@ -135,7 +135,7 @@ body, .app {
 
 .book-top {
   position: relative;
-  height: 200px;
+  height: 225px;
   display: flex;
   align-items: flex-end;
 }
