@@ -7,8 +7,11 @@ import ListBooks from './ListBooks.js'
 
 class BooksApp extends React.Component {
   state = {
-    books: [],
-    bookshelfs: [
+    booksOnShelves: [],
+  }
+  constructor() {
+    super()
+    this.bookshelves = [
       {
         key: "currentlyReading",
         title: "Currently Reading"
@@ -27,7 +30,7 @@ class BooksApp extends React.Component {
     this.getAllBooks()
   }
   getAllBooks() {
-    BooksAPI.getAll().then((books) => this.setState({ books }))
+    BooksAPI.getAll().then((books) => this.setState({ booksOnShelves: books }))
   }
   updateShelfbook(book, shelf) {
     BooksAPI.update(book, shelf)
@@ -38,7 +41,7 @@ class BooksApp extends React.Component {
     BooksAPI.update(book, shelf)
     book.shelf = shelf
     this.setState(state => ({
-      books: state.books.concat([ book ])
+      booksOnShelves: state.booksOnShelves.concat([ book ])
     }))
   }
   render() {
@@ -46,15 +49,15 @@ class BooksApp extends React.Component {
       <div className="app">
         <Route path="/search" render={() => (
           <SearchBooks 
-            bookshelfs={this.state.bookshelfs}
-            booksOnShelf={this.state.books}
+            bookshelves={this.bookshelves}
+            booksOnShelves={this.state.booksOnShelves}
             onAddBookOnShelves={(book, shelf) => this.addNewBookOnShelf(book, shelf)} />
         )}/>
 
         <Route exact path="/" render={() => (
           <ListBooks 
-            bookshelfs={this.state.bookshelfs}
-            books={this.state.books}
+            bookshelves={this.bookshelves}
+            booksOnShelves={this.state.booksOnShelves}
             onChangeShelf={(book, shelf) => this.updateShelfbook(book, shelf)}
           />
         )}/>
@@ -62,4 +65,5 @@ class BooksApp extends React.Component {
     )
   }
 }
+
 export default BooksApp

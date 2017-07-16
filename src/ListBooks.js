@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { PropTypes } from 'prop-types'
 import Bookshelf from './Bookshelf.js'
 
 class ListBooks extends Component {
   render() {
-    const {books, bookshelfs, onChangeShelf} = this.props
-
+    const {booksOnShelves, bookshelves, onChangeShelf} = this.props
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -13,12 +13,12 @@ class ListBooks extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            {bookshelfs.map((bookshelf) => (
+            {bookshelves.map((bookshelf) => (
               <Bookshelf 
                 key={bookshelf.key}
                 bookshelfTitle={bookshelf.title}
-                bookshelfs={bookshelfs}
-                books={books.filter(book => book.shelf === bookshelf.key)}
+                bookshelves={bookshelves}
+                booksOnShelves={booksOnShelves.filter(book => book.shelf === bookshelf.key)}
                 onChangeShelf={onChangeShelf}
               />
             ))}
@@ -31,5 +31,12 @@ class ListBooks extends Component {
     )
   }
 }
+
+ListBooks.propTypes = {
+  booksOnShelves: PropTypes.array.isRequired,
+  bookshelves: PropTypes.array.isRequired,
+  onChangeShelf: PropTypes.func.isRequired,
+}
+
 
 export default ListBooks

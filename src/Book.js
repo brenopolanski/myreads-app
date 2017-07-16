@@ -1,4 +1,5 @@
 import React from 'react'
+import { PropTypes } from 'prop-types'
 
 class Book extends React.Component {
 	state = {
@@ -17,7 +18,7 @@ class Book extends React.Component {
 		}
 	}
 	render() {
-		const {book, bookshelfs, onChangeShelf, bookshelf} = this.props
+		const {book, bookshelves, onChangeShelf, bookshelf} = this.props
 		return (
 			<div className="book">
 			  <div className="book-top">
@@ -35,8 +36,10 @@ class Book extends React.Component {
 			      	value={bookshelf}
 			      >
 			        <option value="disabled" disabled>Move to...</option>
-			        {bookshelfs.map((bookshelf) => (
-			        	<option key={"opt-"+bookshelf.key} value={bookshelf.key} >{bookshelf.title}</option>
+			        {bookshelves.map((bookshelf) => (
+			        	<option key={bookshelf.key} value={bookshelf.key} >
+			        		{bookshelf.title}
+			        	</option>
 			        ))}
 			        <option value="none">None</option>
 			      </select>
@@ -47,6 +50,13 @@ class Book extends React.Component {
 			</div>
 		)
 	}
+}
+
+Book.propTypes = {
+	book: PropTypes.object.isRequired,
+	bookshelves: PropTypes.array.isRequired,
+	onChangeShelf: PropTypes.func.isRequired,
+	bookshelf: PropTypes.string.isRequired
 }
 
 export default Book
