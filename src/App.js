@@ -42,16 +42,18 @@ class BooksApp extends React.Component {
       this.addNewBookOnShelf(book, shelf)
   }
   updateShelfbook(book, shelf) {
-    BooksAPI.update(book, shelf)
-    book.shelf = shelf
-    this.setState(book)
+    BooksAPI.update(book, shelf).then(() => {
+      book.shelf = shelf
+      this.setState(book)  
+    })
   }
   addNewBookOnShelf(book, shelf) {
-    BooksAPI.update(book, shelf)
-    book.shelf = shelf
-    this.setState(state => ({
-      booksOnShelves: state.booksOnShelves.concat([ book ])
-    }))
+    BooksAPI.update(book, shelf).then(() => {
+      book.shelf = shelf
+      this.setState(state => ({
+        booksOnShelves: state.booksOnShelves.concat([ book ])
+      }))
+    })
   }
   render() {
     return (
