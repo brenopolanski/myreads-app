@@ -9,12 +9,15 @@ class Book extends React.Component {
 		this.setBookCoverSizes()
 	}
 	setBookCoverSizes() {
-		let img = new Image();
-		img.onload = (e) => this.setState({ coverWidth: e.target.width, coverHeight: e.target.height })
-		img.src = this.props.book.imageLinks.thumbnail
+		const imageLinks = this.props.book.imageLinks
+		if (imageLinks) {
+			let img = new Image();
+			img.onload = (e) => this.setState({ coverWidth: e.target.width, coverHeight: e.target.height })
+			img.src = this.props.book.imageLinks.thumbnail
+		}
 	}
 	render() {
-		const {book, bookshelfs, onChangeShelf} = this.props
+		const {book, bookshelfs, onChangeShelf, bookshelf} = this.props
 		return (
 			<div className="book">
 			  <div className="book-top">
@@ -23,12 +26,15 @@ class Book extends React.Component {
 				    	width: this.state.coverWidth,
 				    	height: this.state.coverHeight,
 				    	backgroundSize: "cover",
-				    	backgroundImage: `url(${book.imageLinks.thumbnail})`
+				    	backgroundImage: `url(${book.imageLinks && book.imageLinks.thumbnail})`
 				    }}
 			    ></div>
 			    <div className="book-shelf-changer">
-			      <select onChange={(event) => onChangeShelf(book, event.target.value)} value={book.shelf} >
-			        <option value="none" disabled>Move to...</option>
+			      <select
+			      	onChange={(event) => onChangeShelf(book, event.target.value)} 
+			      	value={bookshelf}
+			      >
+			        <option value="disabled" disabled>Move to...</option>
 			        {bookshelfs.map((bookshelf) => (
 			        	<option key={"opt-"+bookshelf.key} value={bookshelf.key} >{bookshelf.title}</option>
 			        ))}
