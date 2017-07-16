@@ -42,7 +42,7 @@ class SearchBooks extends Component {
     return "none"
   }
   render() {
-    const {booksOnShelves, bookshelves, onAddBookOnShelves} = this.props
+    const {booksOnShelves, bookshelves, onChangeShelf} = this.props
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -62,7 +62,7 @@ class SearchBooks extends Component {
                   <Book 
                     book={bookSearched}
                     bookshelves={bookshelves}
-                    onChangeShelf={onAddBookOnShelves}
+                    onChangeShelf={onChangeShelf}
                     bookshelf={this.getBookShelf(booksOnShelves, bookSearched)}
                   />
                 </li>
@@ -77,7 +77,7 @@ class SearchBooks extends Component {
 SearchBooks.propTypes = {
 	booksOnShelves: PropTypes.array.isRequired,
 	bookshelves: PropTypes.array.isRequired,
-	onAddBookOnShelves: PropTypes.func.isRequired
+	onChangeShelf: PropTypes.func.isRequired
 }
 
 export default SearchBooks

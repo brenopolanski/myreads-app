@@ -32,6 +32,15 @@ class BooksApp extends React.Component {
   getAllBooks() {
     BooksAPI.getAll().then((books) => this.setState({ booksOnShelves: books }))
   }
+  onChangeShelf(book, shelf) {
+    const bookOnShelf = this.state.booksOnShelves.filter((myBook) => (
+      myBook.id === book.id
+    ))[0]
+    if (bookOnShelf)
+      this.updateShelfbook(bookOnShelf, shelf)
+    else
+      this.addNewBookOnShelf(book, shelf)
+  }
   updateShelfbook(book, shelf) {
     BooksAPI.update(book, shelf)
     book.shelf = shelf
@@ -51,14 +60,14 @@ class BooksApp extends React.Component {
           <SearchBooks 
             bookshelves={this.bookshelves}
             booksOnShelves={this.state.booksOnShelves}
-            onAddBookOnShelves={(book, shelf) => this.addNewBookOnShelf(book, shelf)} />
+            onChangeShelf={(book, shelf) => this.onChangeShelf(book, shelf)} />
         )}/>
 
         <Route exact path="/" render={() => (
           <ListBooks 
             bookshelves={this.bookshelves}
             booksOnShelves={this.state.booksOnShelves}
-            onChangeShelf={(book, shelf) => this.updateShelfbook(book, shelf)}
+            onChangeShelf={(book, shelf) => this.onChangeShelf(book, shelf)}
           />
         )}/>
       </div>
