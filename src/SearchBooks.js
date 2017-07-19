@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { PropTypes } from 'prop-types'
+import { Debounce } from 'react-throttle'
 import Book from './Book.js'
 import * as BooksAPI from './utils/BooksAPI'
 
 class SearchBooks extends Component {
   state = {
     searchedBooks: []
-  }
-  constructor() {
-  	super()
-  	this.searchCount = 0
   }
   addSearchedBooks(books) {
   	this.setState({ searchedBooks: books })
@@ -19,18 +16,13 @@ class SearchBooks extends Component {
   	this.setState({ searchedBooks: [] })
   }
   searchBooks(query) {
-  	this.searchCount++
   	const mySearchCount = this.searchCount
     if (query) {
       BooksAPI.search(query, 20).then((books) => {
-      	if (mySearchCount === this.searchCount) {
-      		const searchResultsNotEmpty = books.constructor === Array
-      		if (searchResultsNotEmpty)
-      			this.addSearchedBooks(books)
-      		else this.removeSearchedBooks()
-      	}
+      	const searchResultsNotEmpty = books.constructor === Array
+      	searchResultsNotEmpty ? this.addSearchedBooks(books) : this.removeSearchedBooks()
       })
-	   }
+	  }
     else this.removeSearchedBooks()
   }
   getBookShelf(booksOnShelves, bookSearched) {
@@ -48,11 +40,13 @@ class SearchBooks extends Component {
         <div className="search-books-bar">
           <Link className="close-search" to="/">Close</Link>
           <div className="search-books-input-wrapper">
-            <input 
-            	type="text"
-            	placeholder="Search by title or author"
-            	onChange={(e) => this.searchBooks(e.target.value)}
-            />
+            <Debounce time="100" handler="onChange">
+            	<input 
+            		type="text"
+            		placeholder="Search by title or author"
+            		onChange={(e) => this.searchBooks(e.target.value)}
+            	/>
+            </Debounce>
           </div>
         </div>
         <div className="search-books-results">

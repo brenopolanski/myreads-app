@@ -5,26 +5,24 @@ import * as BooksAPI from './utils/BooksAPI'
 import SearchBooks from './SearchBooks.js'
 import ListBooks from './ListBooks.js'
 
-class BooksApp extends React.Component {
+const bookshelves = [
+  {
+    key: "currentlyReading",
+    title: "Currently Reading"
+  },
+  {
+    key: "wantToRead",
+    title: "Want to Read"
+  },
+  {
+    key: "read",
+    title: "Read"
+  }
+] 
+
+class App extends React.Component {
   state = {
     booksOnShelves: [],
-  }
-  constructor() {
-    super()
-    this.bookshelves = [
-      {
-        key: "currentlyReading",
-        title: "Currently Reading"
-      },
-      {
-        key: "wantToRead",
-        title: "Want to Read"
-      },
-      {
-        key: "read",
-        title: "Read"
-      }
-    ]
   }
   componentDidMount() {
     this.getAllBooks()
@@ -60,14 +58,14 @@ class BooksApp extends React.Component {
       <div className="app">
         <Route path="/search" render={() => (
           <SearchBooks 
-            bookshelves={this.bookshelves}
+            bookshelves={bookshelves}
             booksOnShelves={this.state.booksOnShelves}
             onChangeShelf={(book, shelf) => this.onChangeShelf(book, shelf)} />
         )}/>
 
         <Route exact path="/" render={() => (
           <ListBooks 
-            bookshelves={this.bookshelves}
+            bookshelves={bookshelves}
             booksOnShelves={this.state.booksOnShelves}
             onChangeShelf={(book, shelf) => this.onChangeShelf(book, shelf)}
           />
@@ -77,4 +75,4 @@ class BooksApp extends React.Component {
   }
 }
 
-export default BooksApp
+export default App
